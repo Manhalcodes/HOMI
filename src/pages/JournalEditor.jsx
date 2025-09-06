@@ -45,6 +45,20 @@ const JournalEditor = () => {
     }
   }, [id]);
 
+  // Keyboard shortcut for going back (Escape key)
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        navigate(-1);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [navigate]);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setEntry(prev => ({
@@ -191,51 +205,62 @@ const JournalEditor = () => {
     setChatMessages(newMessages);
   };
 
-  if (!entry) return <div className="min-h-screen bg-homi-cream flex items-center justify-center">Loading...</div>;
+  if (!entry) return <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900 flex items-center justify-center text-white">Loading...</div>;
 
   return (
-    <div className="min-h-screen bg-homi-cream p-4 md:p-8">
-      <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900 p-4 md:p-8 relative overflow-hidden">
+      {/* Background decorative elements - DARK THEME */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-pink-500/20 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500/15 rounded-full blur-3xl"></div>
+      </div>
+
+
+      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-8 relative z-10">
         {/* Left Sidebar - Journal Insights */}
         <div className="w-80 flex-shrink-0 hidden lg:block">
           <div className="sticky top-8">
             {analysis ? (
-              <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-homi-sage/20 p-6 mb-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <SparklesIcon className="h-5 w-5 text-homi-yellow" />
-                  <h2 className="text-xl font-bold text-homi-darkolive">Journal Insights</h2>
+              <div className="bg-black/40 backdrop-blur-md rounded-3xl shadow-2xl border border-purple-400/30 p-8 mb-6">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+                    <SparklesIcon className="h-5 w-5 text-white" />
+                  </div>
+                  <h2 className="text-2xl font-bold text-white font-space-grotesk">Journal Insights</h2>
                 </div>
                 <Report analysis={analysis} />
               </div>
             ) : (
-              <div className="bg-white/80 rounded-xl p-6 border border-homi-sage/20">
-                <div className="text-center p-4">
-                  <LightBulbIcon className="h-8 w-8 text-homi-yellow/70 mx-auto mb-3" />
-                  <p className="text-sm text-homi-olive/80 mb-2">
-                    Click "Analyze with Homi" to see insights about your journal entry
-                  </p>
-                  <div className="mt-4 flex justify-center">
-                    <button
-                      onClick={() => handleSave(true)}
-                      className="px-4 py-2 bg-homi-sage/90 text-white hover:bg-homi-olive rounded-lg transition-colors duration-200 text-sm font-medium flex items-center gap-2"
-                      disabled={isSaving || isAnalyzing}
-                    >
-                      {isAnalyzing ? (
-                        <>
-                          <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                          </svg>
-                          Analyzing...
-                        </>
-                      ) : (
-                        <>
-                          <SparklesIcon className="h-4 w-4" />
-                          Analyze with Homi
-                        </>
-                      )}
-                    </button>
+              <div className="bg-black/30 backdrop-blur-sm rounded-3xl p-8 border border-purple-400/30 shadow-xl">
+                <div className="text-center">
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center mx-auto mb-6">
+                    <LightBulbIcon className="h-8 w-8 text-purple-400" />
                   </div>
+                  <h3 className="text-lg font-semibold text-white mb-3">Get AI Insights</h3>
+                  <p className="text-sm text-purple-200/80 mb-6 leading-relaxed">
+                    Click "Analyze with Homi" to see insights about your journal entry and get personalized guidance.
+                  </p>
+                  <button
+                    onClick={() => handleSave(true)}
+                    className="group px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-2xl hover:from-purple-600 hover:to-pink-600 shadow-lg hover:shadow-xl hover:scale-105 transform transition-all duration-300 text-sm font-semibold flex items-center gap-2 mx-auto"
+                    disabled={isSaving || isAnalyzing}
+                  >
+                    {isAnalyzing ? (
+                      <>
+                        <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Analyzing...
+                      </>
+                    ) : (
+                      <>
+                        <SparklesIcon className="h-4 w-4 group-hover:rotate-12 transition-transform duration-300" />
+                        Analyze with Homi
+                      </>
+                    )}
+                  </button>
                 </div>
               </div>
             )}
@@ -245,107 +270,142 @@ const JournalEditor = () => {
         {/* Main Content */}
         <div className="flex-1">
           {/* Header */}
-          <div className="relative mb-10 pt-8">
-            <button
-              onClick={() => navigate("/dashboard")}
-              className="flex items-center gap-2 px-4 py-2 text-homi-olive hover:bg-homi-sage/10 rounded transition-colors duration-200 absolute left-0 top-0"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
-              </svg>
-              Back
-            </button>
+          <div className="relative mb-12 pt-8">
             <div className="text-center">
-              <p className="text-sm text-homi-olive/70 mb-1">{today}</p>
-              <div className="relative max-w-xl mx-auto mb-2">
+              {/* Page Title */}
+              <div className="flex items-center justify-center gap-2 mb-4 text-sm">
+                <span className="text-purple-300/70 font-medium">
+                  {id === 'new' ? 'New Entry' : 'Edit Entry'}
+                </span>
+              </div>
+              
+              <p className="text-sm text-purple-300/70 mb-3 font-medium">{today}</p>
+              <div className="relative max-w-2xl mx-auto mb-4">
                 <input
                   type="text"
                   name="title"
                   value={entry.title || ''}
                   onChange={handleInputChange}
                   placeholder="Untitled"
-                  className="w-full text-3xl font-bold text-homi-olive text-center bg-transparent border-none focus:outline-none focus:ring-0"
+                  className="w-full text-4xl font-bold text-white text-center bg-transparent border-none focus:outline-none focus:ring-0 placeholder-purple-300/50"
                   style={{
                     fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
                   }}
                 />
-                <div className="w-16 h-1 bg-homi-yellow/50 mx-auto rounded-full mt-2"></div>
+                <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto rounded-full mt-4"></div>
               </div>
             </div>
           </div>
 
           {/* Journal Content */}
-          <div className="bg-white rounded-xl shadow-sm mb-8 overflow-hidden border border-homi-sage/20">
-            <div className="p-1">
-              <div className="max-w-2xl mx-auto py-8 px-6">
-                <textarea
-                  name="content"
-                  value={entry.content}
-                  onChange={handleInputChange}
-                  className="w-full min-h-[60vh] p-2 resize-none focus:outline-none text-homi-olive text-lg leading-relaxed font-light tracking-wide"
-                  placeholder="Start writing here..."
-                  style={{
-                    fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
-                    lineHeight: '1.8',
-                    fontSize: '1.125rem',
-                    color: 'var(--homi-olive)'
-                  }}
-                />
-              </div>
-            </div>
+          <div className="relative group">
+            {/* Glassmorphism background - DARK THEME */}
+            <div className="absolute inset-0 bg-black/40 backdrop-blur-md rounded-3xl shadow-2xl border border-purple-400/30"></div>
             
-            {/* Floating Action Buttons */}
-            <div className="sticky bottom-0 bg-white/90 backdrop-blur-sm border-t border-homi-sage/20 p-4">
-              <div className="max-w-2xl mx-auto flex justify-end space-x-3">
-                <button
-                  onClick={() => handleSave(false)}
-                  className="px-5 py-2 text-homi-olive hover:bg-homi-sage/10 rounded-lg transition-colors duration-200 text-sm font-medium"
-                  disabled={isSaving}
-                >
-                  {isSaving ? (
-                    <span className="flex items-center gap-2">
-                      <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                      </svg>
-                      Saving...
-                    </span>
-                  ) : 'Save'}
-                </button>
-                <button
-                  onClick={() => handleSave(true)}
-                  className="px-5 py-2 bg-homi-sage text-white hover:bg-homi-olive rounded-lg transition-colors duration-200 text-sm font-medium flex items-center gap-2"
-                  disabled={isSaving || isAnalyzing}
-                >
-                  {isAnalyzing ? (
-                    <>
-                      <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                      </svg>
-                      Analyzing...
-                    </>
-                  ) : (
-                    <>
-                      <SparklesIcon className="h-4 w-4" />
-                      Analyze with Homi
-                    </>
-                  )}
-                </button>
+            <div className="relative bg-black/30 backdrop-blur-sm rounded-3xl overflow-hidden border border-purple-400/30">
+              <div className="p-2">
+                <div className="max-w-4xl mx-auto py-12 px-8">
+                  <textarea
+                    name="content"
+                    value={entry.content}
+                    onChange={handleInputChange}
+                    className="w-full min-h-[70vh] p-4 resize-none focus:outline-none text-white text-lg leading-relaxed font-light tracking-wide bg-transparent placeholder-purple-300/50"
+                    placeholder="Start writing your thoughts here... Let your mind flow freely and express what's on your heart."
+                    style={{
+                      fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+                      lineHeight: '1.8',
+                      fontSize: '1.125rem',
+                    }}
+                  />
+                </div>
+              </div>
+              
+              {/* Floating Action Buttons - DARK THEME */}
+              <div className="sticky bottom-0 bg-black/60 backdrop-blur-md border-t border-purple-400/30 p-6">
+                <div className="max-w-4xl mx-auto flex justify-between items-center">
+                  <div className="flex items-center gap-4">
+                    <div className="text-sm text-purple-300/70">
+                      {entry.content.length} characters
+                    </div>
+                    <div className="w-1 h-1 bg-purple-400 rounded-full"></div>
+                    <div className="text-sm text-purple-300/70">
+                      Last saved: {new Date().toLocaleTimeString()}
+                    </div>
+                  </div>
+                  
+                  <div className="flex gap-3">
+                    <button
+                      onClick={() => handleSave(false)}
+                      className="group px-6 py-3 text-purple-300 hover:bg-purple-500/20 rounded-2xl transition-all duration-300 text-sm font-semibold hover:scale-105"
+                      disabled={isSaving}
+                    >
+                      {isSaving ? (
+                        <span className="flex items-center gap-2">
+                          <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          Saving...
+                        </span>
+                      ) : (
+                        <span className="flex items-center gap-2">
+                          <svg className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3-3m0 0l-3 3m3-3v12" />
+                          </svg>
+                          Save
+                        </span>
+                      )}
+                    </button>
+                    <button
+                      onClick={() => handleSave(true)}
+                      className="group px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 rounded-2xl shadow-lg hover:shadow-xl hover:scale-105 transform transition-all duration-300 text-sm font-semibold flex items-center gap-2"
+                      disabled={isSaving || isAnalyzing}
+                    >
+                      {isAnalyzing ? (
+                        <>
+                          <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          Analyzing...
+                        </>
+                      ) : (
+                        <>
+                          <SparklesIcon className="h-4 w-4 group-hover:rotate-12 transition-transform duration-300" />
+                          Analyze with Homi
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Mobile Analysis Section */}
+        {/* Mobile Analysis Section - DARK THEME */}
         {analysis && (
           <div className="lg:hidden mt-8">
-            <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-homi-sage/20 p-6">
-              <h2 className="text-xl font-bold text-homi-darkolive mb-4">Journal Insights</h2>
+            <div className="bg-black/40 backdrop-blur-sm rounded-xl shadow-lg border border-purple-400/30 p-6">
+              <h2 className="text-xl font-bold text-white mb-4">Journal Insights</h2>
               <Report analysis={analysis} />
             </div>
           </div>
         )}
+      </div>
+
+      {/* Clean Floating Back Button - DARK THEME */}
+      <div className="fixed bottom-6 left-6 z-50">
+        <button
+          onClick={() => navigate(-1)}
+          className="group flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-2xl shadow-xl hover:shadow-2xl hover:scale-105 transform transition-all duration-300 border border-purple-400/30"
+          title="Back to Journal Dashboard (or press Escape)"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 group-hover:-translate-x-1 transition-transform duration-300" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
+          </svg>
+          <span className="font-semibold text-sm">Back to Dashboard</span>
+        </button>
       </div>
 
       {/* Floating Talk to Homi Button */}

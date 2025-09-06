@@ -35,16 +35,22 @@ export default function Signup() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-rose-50 via-orange-50 to-rose-100 flex items-start justify-center py-12 px-6">
-      <div className="w-full max-w-lg">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900 flex items-start justify-center py-12 px-6 relative overflow-hidden">
+      {/* Background decorative elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-pink-500/20 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl"></div>
+      </div>
+      <div className="w-full max-w-lg relative z-10">
 
         <div className="mb-8">
-          <h2 className="text-3xl font-bold text-orange-800 mb-2">Create your account</h2>
-          <p className="text-orange-700/70">Start your journey with us</p>
+          <h2 className="text-3xl font-bold text-white mb-2">Create your account</h2>
+          <p className="text-purple-200">Start your journey with us</p>
         </div>
 
         {error && (
-          <div className="mb-6 bg-red-50 border-l-4 border-red-400 p-4">
+          <div className="mb-6 bg-red-500/20 border-l-4 border-red-400 p-4 rounded-lg">
             <div className="flex">
               <div className="flex-shrink-0">
                 <svg
@@ -61,16 +67,16 @@ export default function Signup() {
                 </svg>
               </div>
               <div className="ml-3">
-                <p className="text-sm text-red-700">{error}</p>
+                <p className="text-sm text-red-200">{error}</p>
               </div>
             </div>
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-8 shadow-xl border border-orange-100">
+        <form onSubmit={handleSubmit} className="bg-black/40 backdrop-blur-md rounded-2xl p-8 shadow-xl border border-purple-400/30">
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-semibold text-orange-700 mb-2">Full Name</label>
+              <label className="block text-sm font-semibold text-white mb-2">Full Name</label>
               <input
                 type="text"
                 name="name"
@@ -78,12 +84,12 @@ export default function Signup() {
                 onChange={handleChange}
                 placeholder="John Doe"
                 required
-                className="w-full p-3 rounded-xl border border-orange-200 focus:outline-none focus:ring-2 focus:ring-orange-300"
+                className="w-full p-3 rounded-xl border border-purple-400/50 focus:outline-none focus:ring-2 focus:ring-purple-400 bg-black/40 text-white placeholder-purple-300/50"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-orange-700 mb-2">Email</label>
+              <label className="block text-sm font-semibold text-white mb-2">Email</label>
               <input
                 type="email"
                 name="email"
@@ -91,12 +97,12 @@ export default function Signup() {
                 onChange={handleChange}
                 placeholder="your@email.com"
                 required
-                className="w-full p-3 rounded-xl border border-orange-200 focus:outline-none focus:ring-2 focus:ring-orange-300"
+                className="w-full p-3 rounded-xl border border-purple-400/50 focus:outline-none focus:ring-2 focus:ring-purple-400 bg-black/40 text-white placeholder-purple-300/50"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-orange-700 mb-2">Password</label>
+              <label className="block text-sm font-semibold text-white mb-2">Password</label>
               <input
                 type="password"
                 name="password"
@@ -104,12 +110,12 @@ export default function Signup() {
                 onChange={handleChange}
                 placeholder="••••••••"
                 required
-                className="w-full p-3 rounded-xl border border-orange-200 focus:outline-none focus:ring-2 focus:ring-orange-300"
+                className="w-full p-3 rounded-xl border border-purple-400/50 focus:outline-none focus:ring-2 focus:ring-purple-400 bg-black/40 text-white placeholder-purple-300/50"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-orange-700 mb-2">Confirm Password</label>
+              <label className="block text-sm font-semibold text-white mb-2">Confirm Password</label>
               <input
                 type="password"
                 name="confirmPassword"
@@ -117,7 +123,7 @@ export default function Signup() {
                 onChange={handleChange}
                 placeholder="••••••••"
                 required
-                className="w-full p-3 rounded-xl border border-orange-200 focus:outline-none focus:ring-2 focus:ring-orange-300"
+                className="w-full p-3 rounded-xl border border-purple-400/50 focus:outline-none focus:ring-2 focus:ring-purple-400 bg-black/40 text-white placeholder-purple-300/50"
               />
             </div>
           </div>
@@ -128,15 +134,15 @@ export default function Signup() {
               name="terms"
               type="checkbox"
               required
-              className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-orange-300 rounded"
+              className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-purple-400 rounded"
             />
-            <label htmlFor="terms" className="ml-2 block text-sm text-orange-700">
+            <label htmlFor="terms" className="ml-2 block text-sm text-purple-200">
               I agree to the{' '}
-              <a href="#" className="font-medium text-orange-600 hover:text-orange-500">
+              <a href="#" className="font-medium text-purple-300 hover:text-purple-200">
                 Terms
               </a>{' '}
               and{' '}
-              <a href="#" className="font-medium text-orange-600 hover:text-orange-500">
+              <a href="#" className="font-medium text-purple-300 hover:text-purple-200">
                 Privacy Policy
               </a>
             </label>
@@ -144,15 +150,15 @@ export default function Signup() {
 
           <button
             type="submit"
-            className="w-full mt-6 py-3 rounded-full bg-gradient-to-r from-orange-400 to-rose-400 text-white font-semibold shadow-lg hover:opacity-90 transition-opacity"
+            className="w-full mt-6 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold shadow-lg hover:opacity-90 transition-opacity"
           >
             Create Account
           </button>
         </form>
 
         <div className="text-center mt-6">
-          <span className="text-orange-700">Already have an account? </span>
-          <Link to="/login" className="text-orange-600 font-semibold hover:underline">
+          <span className="text-purple-200">Already have an account? </span>
+          <Link to="/login" className="text-purple-300 font-semibold hover:underline">
             Sign in
           </Link>
         </div>

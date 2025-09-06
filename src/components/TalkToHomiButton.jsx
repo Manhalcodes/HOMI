@@ -6,9 +6,9 @@ const TalkToHomiButton = ({ onClick, className = '', showText = true }) => {
   return (
     <button 
       onClick={onClick}
-      className={`fixed bottom-6 right-6 bg-[#9caf88] hover:bg-[#8a9c77] text-white p-3 rounded-full shadow-lg flex items-center gap-2 z-[9999] text-base font-medium transition-colors ${className}`}
+      className={`fixed bottom-6 right-6 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white p-3 rounded-full shadow-lg flex items-center gap-2 z-[9999] text-base font-medium transition-all duration-300 hover:scale-105 ${className}`}
       style={{
-        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1)'
+        boxShadow: '0 4px 6px -1px rgba(147, 51, 234, 0.3), 0 2px 4px -1px rgba(236, 72, 153, 0.2)'
       }}
       aria-label="Talk to Homi"
       title="Get AI-powered insights"

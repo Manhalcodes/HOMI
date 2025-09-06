@@ -11,6 +11,7 @@ import {
   FiX, 
   FiLoader
 } from 'react-icons/fi';
+import Navbar from '../components/Navbar';
 import TalkToHomiButton from '../components/TalkToHomiButton';
 
 // Utility function to format dates consistently
@@ -124,8 +125,8 @@ const Dashboard = () => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <FiLoader className="animate-spin text-homi-olive text-2xl mr-2" />
-        <span className="text-homi-olive">Loading your journal...</span>
+        <FiLoader className="animate-spin text-purple-400 text-2xl mr-2" />
+        <span className="text-purple-300">Loading your journal...</span>
       </div>
     );
   }
@@ -139,7 +140,7 @@ const Dashboard = () => {
           <p className="mb-4">{error}</p>
           <button 
             onClick={() => window.location.reload()}
-            className="bg-homi-sage text-white px-4 py-2 rounded hover:bg-homi-olive transition-colors"
+            className="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 transition-colors"
           >
             Try Again
           </button>
@@ -149,169 +150,272 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="flex h-screen bg-homi-sage/10">
-      {/* Sidebar */}
-      <div className={`${isSidebarOpen ? 'w-64' : 'w-16'} bg-white/90 backdrop-blur-sm border-r border-homi-olive/10 transition-all duration-300 flex flex-col h-full`}>
-        <div className="p-4 border-b border-gray-200 flex items-center justify-between">
-          {isSidebarOpen && <h1 className="text-xl font-bold text-homi-olive">Homi Journal</h1>}
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900 relative overflow-hidden">
+      {/* Navigation Header */}
+      <Navbar />
+      
+      {/* Enhanced Background decorative elements - DARK THEME */}
+      <div className="absolute inset-0 overflow-hidden z-0">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-purple-500/20 via-pink-500/15 to-indigo-500/20 rounded-full blur-3xl animate-gentle-float"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-pink-500/20 via-purple-500/15 to-indigo-500/20 rounded-full blur-3xl animate-gentle-float" style={{animationDelay: '1s'}}></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-indigo-500/15 via-purple-500/10 to-pink-500/15 rounded-full blur-3xl animate-gentle-float" style={{animationDelay: '2s'}}></div>
+        
+        {/* Subtle floating elements - DARK THEME */}
+        <div className="absolute top-20 left-20 w-3 h-3 bg-purple-500/60 rounded-full animate-bounce-gentle" style={{animationDelay: '0.5s'}}></div>
+        <div className="absolute top-40 right-32 w-4 h-4 bg-pink-500/70 rounded-full animate-bounce-gentle" style={{animationDelay: '1.5s'}}></div>
+        <div className="absolute bottom-32 left-32 w-2 h-2 bg-indigo-500/80 rounded-full animate-bounce-gentle" style={{animationDelay: '2.5s'}}></div>
+        <div className="absolute bottom-20 right-20 w-3 h-3 bg-purple-500/60 rounded-full animate-bounce-gentle" style={{animationDelay: '3s'}}></div>
+        
+        {/* Soft gradient orbs - DARK THEME */}
+        <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-gradient-to-r from-purple-500/25 to-pink-500/25 rounded-full blur-2xl animate-rotate-slow"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-40 h-40 bg-gradient-to-r from-pink-500/25 to-indigo-500/25 rounded-full blur-2xl animate-rotate-slow" style={{animationDirection: 'reverse'}}></div>
+      </div>
+
+      {/* Main Content Area - No gap */}
+      <div className="flex h-screen">
+        {/* Enhanced Sidebar - DARK THEME */}
+        <div className={`${isSidebarOpen ? 'w-72' : 'w-20'} bg-black/40 backdrop-blur-md border-r border-purple-400/30 transition-all duration-500 flex flex-col h-full relative z-10 shadow-xl hover:shadow-2xl group`}>
+        {/* Sidebar Header - DARK THEME */}
+        <div className="p-6 border-b border-purple-400/30 flex items-center justify-between">
+          {isSidebarOpen && (
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-lg font-bold">
+                H
+              </div>
+              <div>
+                <h1 className="text-xl font-bold text-white font-space-grotesk">Homi Journal</h1>
+                <p className="text-xs text-purple-300/70">Your safe space</p>
+              </div>
+            </div>
+          )}
           <button 
-            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="text-gray-500 hover:text-gray-700"
+            onClick={() => setState(prev => ({ ...prev, isSidebarOpen: !isSidebarOpen }))}
+            className="p-2 rounded-xl text-purple-300/70 hover:text-white hover:bg-purple-500/20 transition-all duration-300"
           >
-            {isSidebarOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+            {isSidebarOpen ? <FiX size={20} /> : <FiMenu size={20} />}
           </button>
         </div>
         
-        <div className="p-4">
+        {/* New Journal Button */}
+        <div className="p-6">
           <Link 
             to="/journal/new"
-            className="flex items-center gap-2 bg-homi-sage text-white px-4 py-2.5 rounded-lg hover:bg-homi-olive transition-colors justify-center"
+            className="group flex items-center gap-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-4 rounded-2xl hover:from-purple-600 hover:to-pink-600 shadow-lg hover:shadow-xl hover:scale-105 transform transition-all duration-300 justify-center"
             aria-label="Create new journal entry"
           >
-            <FiPlus className="w-5 h-5" />
-            {isSidebarOpen && <span className="font-medium">New Journal</span>}
+            <FiPlus className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
+            {isSidebarOpen && <span className="font-semibold">New Journal</span>}
           </Link>
         </div>
 
-        <nav className="flex-1 overflow-y-auto p-2">
-          <div className="space-y-1">
-            <button className="w-full flex items-center gap-2 px-3 py-2 rounded-lg bg-orange-50 text-homi-orange">
-              <FiGrid />
-              {isSidebarOpen && <span>All Pages</span>}
+        {/* Navigation - DARK THEME */}
+        <nav className="flex-1 overflow-y-auto p-4">
+          <div className="space-y-2">
+            <button className="group w-full flex items-center gap-3 px-4 py-3 rounded-2xl bg-purple-500/20 text-white shadow-md hover:shadow-lg transition-all duration-300">
+              <FiGrid className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
+              {isSidebarOpen && <span className="font-medium">All Pages</span>}
             </button>
-            <button className="w-full flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 text-gray-700">
-              <FiStar />
-              {isSidebarOpen && <span>Favorites</span>}
+            <button className="group w-full flex items-center gap-3 px-4 py-3 rounded-2xl hover:bg-purple-500/20 text-purple-300/70 hover:text-white transition-all duration-300">
+              <FiStar className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
+              {isSidebarOpen && <span className="font-medium">Favorites</span>}
             </button>
-            <button className="w-full flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 text-gray-700">
-              <FiTrash2 />
-              {isSidebarOpen && <span>Trash</span>}
+            <button className="group w-full flex items-center gap-3 px-4 py-3 rounded-2xl hover:bg-purple-500/20 text-purple-300/70 hover:text-white transition-all duration-300">
+              <FiTrash2 className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
+              {isSidebarOpen && <span className="font-medium">Trash</span>}
             </button>
           </div>
         </nav>
-      </div>
+        </div>
 
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Header */}
-        <header className="bg-white border-b border-gray-200 p-4">
+        {/* Main Content */}
+        <div className="flex-1 flex flex-col overflow-hidden relative z-10">
+        {/* Enhanced Header */}
+        <header className="bg-black/40 backdrop-blur-md border-b border-purple-400/30 p-4 shadow-sm hover:shadow-lg transition-all duration-300 group">
           <div className="flex items-center justify-between">
-            {/* Search */}
-            <div className="relative">
-              <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            {/* Enhanced Search */}
+            <div className="relative flex-1 max-w-md group/search">
+              <FiSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-purple-400 group-hover/search:scale-110 transition-transform duration-300" />
               <input
                 type="text"
                 placeholder="Search your journal..."
-                className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-homi-olive focus:border-transparent"
+                className="w-full pl-12 pr-4 py-3 border-2 border-purple-400/50 rounded-2xl focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-purple-400 bg-black/40 hover:bg-black/60 transition-all duration-300 group-hover/search:scale-105 group-hover/search:shadow-lg text-white placeholder-purple-300/50"
                 value={searchQuery}
                 onChange={(e) => setState(prev => ({ ...prev, searchQuery: e.target.value }))}
               />
             </div>
-            <div className="flex items-center gap-2 ml-4">
-              <button 
-                onClick={() => setState(prev => ({ ...prev, activeView: 'grid' }))}
-                className={`p-2 rounded-lg ${activeView === 'grid' ? 'bg-gray-100' : 'hover:bg-gray-100'}`}
-              >
-                <FiGrid />
-              </button>
-              <button 
-                onClick={() => setState(prev => ({ ...prev, activeView: 'list' }))}
-                className={`p-2 rounded-lg ${activeView === 'list' ? 'bg-gray-100' : 'hover:bg-gray-100'}`}
-              >
-                <FiList />
-              </button>
+            
+            {/* View Toggle */}
+            <div className="flex items-center gap-2 ml-6">
+              <div className="bg-purple-500/10 rounded-2xl p-1">
+                <button 
+                  onClick={() => setState(prev => ({ ...prev, activeView: 'grid' }))}
+                  className={`p-3 rounded-xl transition-all duration-300 ${
+                    activeView === 'grid' 
+                      ? 'bg-white shadow-md text-purple-600' 
+                      : 'text-purple-300/70 hover:text-purple-300 hover:bg-white/50'
+                  }`}
+                >
+                  <FiGrid className="w-5 h-5" />
+                </button>
+                <button 
+                  onClick={() => setState(prev => ({ ...prev, activeView: 'list' }))}
+                  className={`p-3 rounded-xl transition-all duration-300 ${
+                    activeView === 'list' 
+                      ? 'bg-white shadow-md text-purple-600' 
+                      : 'text-purple-300/70 hover:text-purple-300 hover:bg-white/50'
+                  }`}
+                >
+                  <FiList className="w-5 h-5" />
+                </button>
+              </div>
             </div>
           </div>
         </header>
 
         {/* Content */}
-        <main className="flex-1 overflow-y-auto p-6 bg-white">
-          <div className="max-w-6xl mx-auto">
+        <main className="flex-1 overflow-y-auto p-4 bg-transparent">
+          <div className="max-w-7xl mx-auto">
+            {/* Header Section */}
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-semibold text-gray-900">My Journal</h2>
-              <div className="text-sm text-gray-500">
-                {filteredEntries.length} {filteredEntries.length === 1 ? 'entry' : 'entries'}
+                    <div>
+                      <h2 className="text-2xl font-bold text-white font-space-grotesk mb-1">My Journal</h2>
+                      <p className="text-purple-300/70">Your thoughts, memories, and reflections</p>
+                    </div>
+              <div className="flex items-center gap-4">
+                <div className="text-sm text-purple-300 bg-purple-500/10 px-4 py-2 rounded-full">
+                  {filteredEntries.length} {filteredEntries.length === 1 ? 'entry' : 'entries'}
+                </div>
               </div>
             </div>
 
             {activeView === 'grid' ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredEntries.map(entry => (
-                  <div key={entry.id} className="group relative">
-                    <div className="absolute right-2 top-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button 
-                        onClick={() => toggleFavorite(entry.id)}
-                        className="p-1.5 rounded-full bg-white/80 backdrop-blur-sm shadow-sm hover:bg-gray-100"
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                {filteredEntries.map((entry, index) => (
+                  <div key={entry.id} className="group relative z-10 gentle-glow" style={{animationDelay: `${index * 0.1}s`}}>
+                    {/* Enhanced Glassmorphism card - OLIVE THEME */}
+                    <div className="absolute inset-0 bg-black/40 backdrop-blur-md rounded-3xl shadow-lg border border-purple-400/30 group-hover:shadow-2xl group-hover:shadow-purple-500/10 transition-all duration-300 z-0"></div>
+                    
+                    <div className="relative bg-black/30 backdrop-blur-md rounded-3xl p-4 h-full min-h-[160px] hover:bg-black/40 transition-all duration-300 hover:scale-110 hover:shadow-2xl hover:shadow-purple-500/20 group-hover:border-purple-400/50 border border-purple-400/20 z-10">
+                      {/* Enhanced Favorite button */}
+                      <div className="absolute right-3 top-3 z-10 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                        <button 
+                          onClick={() => toggleFavorite(entry.id)}
+                          className="p-2 rounded-full bg-white/80 backdrop-blur-sm shadow-lg hover:bg-white hover:scale-110 transition-all duration-300 hover:shadow-xl group/star"
+                        >
+                          <FiStar className={`w-4 h-4 ${entry.isFavorite ? 'text-yellow-400 fill-current' : 'text-gray-400'} group-hover/star:scale-110 transition-transform duration-300`} />
+                        </button>
+                      </div>
+                      
+                      <Link
+                        to={`/journal/${entry.id}`}
+                        className="block h-full"
                       >
-                        <FiStar className={`w-4 h-4 ${entry.isFavorite ? 'text-yellow-400 fill-current' : 'text-gray-400'}`} />
-                      </button>
+                        <h3 className="font-semibold text-white mb-3 line-clamp-2 text-lg group-hover:text-purple-200 group-hover:scale-110 transition-all duration-300">
+                          {entry.title}
+                        </h3>
+                        <p className="text-purple-200/70 mb-4 line-clamp-3 text-sm leading-relaxed">
+                          {entry.preview}
+                        </p>
+                        <div className="flex items-center justify-between mt-auto">
+                          <div className="text-xs text-purple-300/60 font-medium">
+                            {formatDate(entry.date)}
+                          </div>
+                          {entry.isFavorite && (
+                            <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
+                          )}
+                        </div>
+                      </Link>
                     </div>
-                    <Link
-                      to={`/journal/${entry.id}`}
-                      className="block h-full p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow"
-                    >
-                      <h3 className="font-medium text-gray-900 mb-2 line-clamp-2">{entry.title}</h3>
-                      <p className="text-sm text-gray-500 mb-3 line-clamp-2">{entry.preview}</p>
-                      <div className="text-xs text-gray-400">{formatDate(entry.date)}</div>
-                    </Link>
                   </div>
                 ))}
                 
-                {/* New Page Card */}
+                {/* Enhanced New Page Card */}
                 <Link
                   to="/journal/new"
-                  className="flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-300 rounded-lg hover:border-homi-orange hover:bg-orange-50 transition-colors h-full min-h-[180px]"
+                  className="group relative z-10 gentle-glow"
+                  style={{animationDelay: `${filteredEntries.length * 0.1}s`}}
                 >
-                  <div className="w-10 h-10 rounded-full bg-homi-orange/10 flex items-center justify-center mb-2">
-                    <FiPlus className="text-homi-orange" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/30 to-pink-500/30 backdrop-blur-md rounded-3xl border-2 border-dashed border-purple-400/60 group-hover:border-purple-400 group-hover:from-purple-500/50 group-hover:to-pink-500/50 transition-all duration-300 group-hover:shadow-2xl group-hover:shadow-purple-500/20 z-0"></div>
+                  
+                  <div className="relative flex flex-col items-center justify-center p-6 h-full min-h-[160px] group-hover:scale-110 transition-all duration-300 z-10">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mb-3 group-hover:scale-110 group-hover:rotate-180 transition-all duration-500 ease-out shadow-lg group-hover:shadow-xl group-hover:shadow-purple-500/30">
+                    <FiPlus className="text-white text-lg group-hover:scale-110 group-hover:rotate-180 transition-all duration-500 ease-out" />
+                    </div>
+                    <span className="text-white font-semibold text-base group-hover:text-purple-200 transition-all duration-300 group-hover:scale-110">New Page</span>
+                    <span className="text-purple-300/70 text-xs mt-1 group-hover:text-purple-200 transition-all duration-300 group-hover:scale-110">Start writing</span>
                   </div>
-                  <span className="text-sm font-medium text-gray-700">New Page</span>
                 </Link>
               </div>
             ) : (
-              <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+              <div className="space-y-4">
                 {filteredEntries.map((entry, index) => (
                   <div 
                     key={entry.id} 
-                    className={`flex items-center p-4 hover:bg-gray-50 ${index !== filteredEntries.length - 1 ? 'border-b border-gray-100' : ''}`}
+                    className="group relative"
                   >
-                    <button 
-                      onClick={() => toggleFavorite(entry.id)}
-                      className="p-1.5 mr-3 text-gray-300 hover:text-yellow-400"
-                    >
-                      <FiStar className={`w-4 h-4 ${entry.isFavorite ? 'text-yellow-400 fill-current' : ''}`} />
-                    </button>
-                    <Link to={`/journal/${entry.id}`} className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between">
-                        <h3 className="font-medium text-gray-900 truncate pr-2">{entry.title}</h3>
-                        <span className="text-xs text-gray-400 whitespace-nowrap ml-2">
-                          {formatDate(entry.date)}
-                        </span>
+                    {/* Glassmorphism card for list view - OLIVE THEME */}
+                    <div className="absolute inset-0 bg-black/40 backdrop-blur-sm rounded-2xl shadow-lg border border-purple-400/30"></div>
+                    
+                    <div className="relative bg-black/30 backdrop-blur-sm rounded-2xl p-6 hover:bg-black/40 transition-all duration-300 hover:scale-[1.05] hover:shadow-xl hover:shadow-purple-500/10">
+                      <div className="flex items-center">
+                        <button 
+                          onClick={() => toggleFavorite(entry.id)}
+                          className="p-2 mr-4 text-purple-300/70 hover:text-yellow-400 hover:scale-110 transition-all duration-300"
+                        >
+                          <FiStar className={`w-5 h-5 ${entry.isFavorite ? 'text-yellow-400 fill-current' : ''}`} />
+                        </button>
+                        <Link to={`/journal/${entry.id}`} className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between mb-2">
+                            <h3 className="font-semibold text-white text-lg group-hover:text-purple-200 group-hover:scale-110 transition-all duration-300 truncate pr-4">
+                              {entry.title}
+                            </h3>
+                            <span className="text-sm text-purple-300/60 font-medium whitespace-nowrap ml-4">
+                              {formatDate(entry.date)}
+                            </span>
+                          </div>
+                          <p className="text-purple-200/70 text-sm leading-relaxed line-clamp-2">
+                            {entry.preview}
+                          </p>
+                        </Link>
+                        {entry.isFavorite && (
+                          <div className="w-3 h-3 bg-yellow-400 rounded-full ml-4"></div>
+                        )}
                       </div>
-                      <p className="text-sm text-gray-500 truncate">{entry.preview}</p>
-                    </Link>
+                    </div>
                   </div>
                 ))}
                 
                 {filteredEntries.length === 0 && (
-                  <div className="p-8 text-center text-gray-500">
-                    <p>No entries found. Create your first journal entry!</p>
+                  <div className="text-center py-16">
+                    <div className="w-24 h-24 rounded-full bg-gradient-to-br from-green-200/50 to-emerald-200/50 flex items-center justify-center mx-auto mb-6">
+                      <FiSearch className="w-12 h-12 text-purple-400" />
+                    </div>
+                    <h3 className="text-xl font-semibold text-white mb-2">No entries found</h3>
+                    <p className="text-purple-300/80 mb-6">Create your first journal entry to get started!</p>
+                    <Link
+                      to="/journal/new"
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-2xl hover:from-purple-600 hover:to-pink-600 shadow-lg hover:shadow-xl hover:scale-105 transform transition-all duration-300"
+                    >
+                      <FiPlus className="w-5 h-5" />
+                      <span className="font-semibold">Create New Entry</span>
+                    </Link>
                   </div>
                 )}
               </div>
             )}
           </div>
         </main>
+        
+        <TalkToHomiButton 
+          onClick={() => {
+            // In a real app, this would open a chat interface
+            const message = 'Talk to Homi is coming soon! This feature will help you analyze your journal entries and provide insights.';
+            alert(message);
+          }}
+          showText={isSidebarOpen}
+        />
+        </div>
       </div>
-
-      <TalkToHomiButton 
-        onClick={() => {
-          // In a real app, this would open a chat interface
-          const message = 'Talk to Homi is coming soon! This feature will help you analyze your journal entries and provide insights.';
-          alert(message);
-        }}
-        showText={isSidebarOpen}
-      />
     </div>
   );
 };
